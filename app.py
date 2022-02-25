@@ -1,19 +1,27 @@
-import Flask
-from models.NumberModel import db
-from controllers.NumberController import app as numberController
-from controllers.AuthenticationController import app as authenticationController
+from flask import Flask, Blueprint, jsonify
+from flask_restplus import Api
+from marshmallow import ValidationError
 
+from ma import ma
+from db import db
+from controllers.number import Number, NumberList, number_ns
+from server.instance import server
 
-app_web = Flask(__name__)
-app_web.secret_key = "secret_key_evolux"
-app_web.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///contacts.sqlite3'
+api = server.api
+app = server.app
 
+@app.before_first_request
+def create_tables():
+    db.create_all()
 
-app_web.register_blueprint(numberController, url_prefix="/number")
-app_web.register_blueprint(authenticationController, url_prefix="/authentication")
+@api.errorhandler(ValidationError)
+def handle_validation_error(error):
+    return jsonify(error.messages), 400
+
+api.add_resource(Number, '/numbers/<int:id>')
+api.add_resource(NumberList, '/numbers')
 
 if __name__ == '__main__':
-    db.init_app(app=app_web)
-    with app_web.test_request_context():
-        db.create_all()
-    app_web.run(debug=True, host='0.0.0.0')
+    db.init_app(app)
+    ma.init_app(app)
+    server.run()

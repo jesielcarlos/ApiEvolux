@@ -35,7 +35,7 @@ class Number(Resource):
         return {'message': ITEM_NOT_FOUND}, 404
 
     @number_ns.expect(item)
-    def edit(self, id):
+    def put(self, id):
         number_data = NumberModel.find_by_id(id)
         number_json = request.get_json()
 

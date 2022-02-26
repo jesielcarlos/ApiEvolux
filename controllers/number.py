@@ -16,7 +16,7 @@ item = number_ns.model('Number', {
     'value': fields.String('Number value'),
     'monthyPrice': fields.Integer(0),
     'setupPrice': fields.Integer(0),
-    'currency': fields.Integer(0),
+    'currency': fields.String('Currency'),
 })
 
 class Number(Resource):

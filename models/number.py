@@ -35,11 +35,11 @@ class NumberModel(db.Model):
     def find_all(obj):
         return obj.query.all()
 
-    def save_to_db(self):
+    def save(self):
         db.session.add(self)
         db.session.commit()
 
-    def delete_from_db(self):
+    def delete(self):
         db.session.delete(self)
         db.session.commit()
         

@@ -30,12 +30,12 @@ class Number(Resource):
     def delete(self, id):
         number_data = NumberModel.find_by_id(id)
         if number_data:
-            number_data.delete_from_db()
+            number_data.delete()
             return '', 204
         return {'message': ITEM_NOT_FOUND}, 404
 
     @number_ns.expect(item)
-    def put(self, id):
+    def edit(self, id):
         number_data = NumberModel.find_by_id(id)
         number_json = request.get_json()
 
@@ -47,7 +47,7 @@ class Number(Resource):
         else:
             number_data = number_schema.load(number_json)
 
-        number_data.save_to_db()
+        number_data.save()
         return number_schema.dump(number_data), 200
 
 class NumberList(Resource):
@@ -61,6 +61,6 @@ class NumberList(Resource):
         number_json = request.get_json()
         number_data = number_schema.load(number_json)
 
-        number_data.save_to_db()
+        number_data.save()
 
         return number_schema.dump(number_data), 201

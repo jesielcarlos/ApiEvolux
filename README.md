@@ -5,4 +5,4 @@ Repositório destinado a realizar o desafio para desenvolvedor backend da evolux
 - docker-compose up --build
 
 # Rotas
-- Rota base: localhost":5000/api/doc
+- Rota base: localhost:5000/api/doc
